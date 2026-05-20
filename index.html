@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>今日なに食べよーかな</title>
+  
 
   <style>
     body {
       font-family: sans-serif;
-      background: rgb(124, 44, 44);
+      background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,7 +18,7 @@
     }
 
     .container {
-      background: #1a1a1a;
+      background: gray;
       padding: 40px;
       border-radius: 20px;
       text-align: center;
@@ -68,11 +69,21 @@
       font-size: 18px;
       border-radius: 10px;
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:active {
+    transform: scale(0.95);
     }
 
     button:hover {
       opacity: 0.9;
     }
+
+    button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 .meal-card {
   background: white;
@@ -84,7 +95,15 @@
   margin-bottom: 20px;
 
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+  transition: transform 0.2s ease;
+
 }
+
+.meal-card:hover {
+  transform: translateY(-5px);
+}
+
 
 #mealImage {
   width: 100%;
@@ -103,9 +122,19 @@
 
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+.footer {
+  color: white;
+  font-size: 12px;
+  margin-top: 15px;
 }
 
   </style>
@@ -120,7 +149,7 @@ button:disabled {
 
     <select id="type">
       <option value="all">全部</option>
-      <option value="light">軽め</option>
+      <option value="light">あっさり</option>
       <option value="normal">そこそこ</option>
       <option value="heavy">がっつり</option>
     </select>
@@ -137,10 +166,12 @@ button:disabled {
   
 </div>
 
-
     <button onclick="chooseMeal()">
-      決めてもらう
+      これにする！
     </button>
+
+<p class="footer">今日のご飯をランダム提案</p>
+
   </div>
 
   <script>
@@ -218,12 +249,16 @@ button:disabled {
 
         mealImage.style.opacity = 0;
 
-        const finalIndex = Math.floor(Math.random() * filtered.length);
+const finalIndex = Math.floor(Math.random() * filtered.length);
+
+setTimeout(() => {
 
   mealImage.src =
   filtered[finalIndex].image;
 
   mealImage.style.opacity = 1;
+
+}, 150);
 
         result.textContent = "🎯 " + filtered[finalIndex].name;
 
