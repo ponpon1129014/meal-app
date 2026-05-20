@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>今日なに食べよーかな</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: rgb(124, 44, 44);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    #result {
+      font-size: 28px;
+      margin-bottom: 30px;
+      min-height: 40px;
+      transition: all 0.3s ease;
+      color: black;
+     }
+
+    .spinning {
+      transform: scale(1.2);
+      opacity: 0.4;
+      filter: blur(1px);
+     }
+
+     .pop {
+       animation: pop 0.4s ease;
+     }
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+    button {
+      background: #ff7f50;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+.meal-card {
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 20px;
+
+  margin-bottom: 20px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#mealImage {
+  width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  height: 300px;
+
+  object-fit: cover;
+
+  border-radius: 15px;
+
+  margin-bottom: 15px;
+
+  transition: opacity 0.3s ease;
+
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+  </style>
+
+   
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>今日なに食べよーかな？</h1>
+
+    <select id="type">
+      <option value="all">全部</option>
+      <option value="light">軽め</option>
+      <option value="normal">そこそこ</option>
+      <option value="heavy">がっつり</option>
+    </select>
+
+ <div class="meal-card">
+
+<img
+  id="mealImage"
+  src="images/default.jpg"
+  alt=""
+  onerror="this.src='images/default.jpg'"
+>
+  <div id="result">？？？</div>
+  
+</div>
+
+
+    <button onclick="chooseMeal()">
+      決めてもらう
+    </button>
+  </div>
+
+  <script>
+    const meals = [
+
+  { name: "カレー", type: "heavy", image: "images/curry.jpg" },
+  { name: "ラーメン", type: "heavy", image: "images/ramen.jpg" },
+  { name: "寿司", type: "heavy", image: "images/sushi.jpg" },
+  { name: "焼肉", type: "heavy", image: "images/yakiniku.jpg" },
+  { name: "ハンバーグ", type: "heavy", image: "images/hamburg.jpg" },
+  { name: "ステーキ", type: "heavy", image: "images/steak.jpg" },
+  { name: "チャーハン", type: "heavy", image: "images/friedrice.jpg" },
+  { name: "唐揚げ定食", type: "heavy", image: "images/karaage.jpg" },
+  { name: "牛丼", type: "heavy", image: "images/gyudon.jpg" },
+  { name: "天丼", type: "heavy", image: "images/tendon.jpg" },
+
+  { name: "うどん", type: "light", image: "images/udon.jpg" },
+  { name: "そば", type: "light", image: "images/soba.jpg" },
+  { name: "サラダ", type: "light", image: "images/salad.jpg" },
+  { name: "サンドイッチ", type: "light", image: "images/sandwich.jpg" },
+  { name: "おにぎり", type: "light", image: "images/onigiri.jpg" },
+  { name: "スープ", type: "light", image: "images/soup.jpg" },
+  { name: "冷やし中華", type: "light", image: "images/hiyashi.jpg" },
+  { name: "ヨーグルト", type: "light", image: "images/yogurt.jpg" },
+  { name: "フルーツ", type: "light", image: "images/fruits.jpg" },
+  
+  { name: "親子丼", type: "normal", image: "images/oyakodon.jpg" },
+  { name: "オムライス", type: "normal", image: "images/omurice.jpg" },
+  { name: "ナポリタン", type: "normal", image: "images/napolitan.jpg" },
+  { name: "餃子", type: "normal", image: "images/gyoza.jpg" },
+  { name: "焼きそば", type: "normal", image: "images/yakisoba.jpg" },
+  { name: "グラタン", type: "normal", image: "images/gratin.jpg" },
+  { name: "ドリア", type: "normal", image: "images/doria.jpg" },
+  { name: "ピザ", type: "normal", image: "images/pizza.jpg" },
+  { name: "たこ焼き", type: "normal", image: "images/takoyaki.jpg" },
+  { name: "お好み焼き", type: "normal", image: "images/okonomiyaki.jpg" }
+
+];
+
+  function chooseMeal() {
+
+  const button =
+  document.querySelector("button");  
+  const result = document.getElementById("result");
+  const type = document.getElementById("type").value;
+  
+  const mealImage =
+  document.getElementById("mealImage");
+
+  let filtered = meals;
+  if (type !== "all") {
+    filtered = meals.filter(m => m.type === type);
+  }
+
+  let count = 0;
+  const maxCount = 15;
+
+  result.textContent = "ガチャ中...";
+
+  result.classList.add("spinning");
+  button.disabled = true;  
+
+  const interval = setInterval(() => {
+    const randomIndex = Math.floor(Math.random() * filtered.length);
+    result.textContent = filtered[randomIndex].name;
+
+    count++;
+
+    if (count >= maxCount) {
+      clearInterval(interval);
+
+      result.classList.remove("spinning");
+
+      setTimeout(() => {
+
+        mealImage.style.opacity = 0;
+
+        const finalIndex = Math.floor(Math.random() * filtered.length);
+
+  mealImage.src =
+  filtered[finalIndex].image;
+
+  mealImage.style.opacity = 1;
+
+        result.textContent = "🎯 " + filtered[finalIndex].name;
+
+        result.classList.remove("pop");
+        void result.offsetWidth; 
+        result.classList.add("pop");
+        button.disabled = false;
+
+      }, 150);
+    }
+  }, 80);
+}
+
+const button =
+document.querySelector("button");
+
+  </script>
+
+</body>
+</html>
