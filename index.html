@@ -7,6 +7,7 @@
   
 
   <style>
+
     body {
       font-family: sans-serif;
       background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
@@ -24,7 +25,7 @@
       text-align: center;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       width: 90%;
-      max-width: 400px;
+      max-width: 700px;
     }
 
     h1 {
@@ -76,13 +77,24 @@
     transform: scale(0.95);
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
     button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+#historyList {
+  color: white;
+  text-align: left;
+  padding-left: 20px;
+}
+
+#historyList li {
+  margin-bottom: 8px;
 }
 
 .meal-card {
@@ -98,43 +110,70 @@
 
   transition: transform 0.2s ease;
 
-}
+  flex: 1;
 
-.meal-card:hover {
-  transform: translateY(-5px);
 }
-
 
 #mealImage {
   width: 100%;
-
   aspect-ratio: 1 / 1;
-
   height: 300px;
-
   object-fit: cover;
-
   border-radius: 15px;
-
   margin-bottom: 15px;
-
   transition: opacity 0.3s ease;
-
 }
 
 select {
   width: 100%;
   padding: 12px;
+   box-sizing: border-box;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: none;
+  border: 1px solid #ccc;
   font-size: 16px;
+  background: #f5f5f5;
+color: #333;
 }
 
 .footer {
   color: white;
   font-size: 12px;
   margin-top: 15px;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+@media (max-width: 600px) {
+  .content {
+    flex-direction: column;
+  }
+
+    .container {
+    padding: 20px;
+  }
+
+  #mealImage {
+    height: 240px;
+  }
+
+}
+
+.history-area {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(5px);
+
+  padding: 20px;
+  border-radius: 20px;
+
+  color: white;
+
+  min-width: 140px;
+  width: 140px;
 }
 
   </style>
@@ -147,6 +186,10 @@ select {
   <div class="container">
     <h1>今日なに食べよーかな？</h1>
 
+<div class="content">
+
+ <div class="meal-card">
+
     <select id="type">
       <option value="all">全部</option>
       <option value="light">あっさり</option>
@@ -154,27 +197,76 @@ select {
       <option value="heavy">がっつり</option>
     </select>
 
- <div class="meal-card">
-
 <img
   id="mealImage"
   src="images/default.jpg"
   alt=""
-  onerror="this.src='images/default.jpg'"
 >
   <div id="result">？？？</div>
-  
-</div>
 
-    <button onclick="chooseMeal()">
+    <button id="chooseButton">
       これにする！
     </button>
+
+      </div>
+
+  <div class="history-area">
+
+    <h2>最近の結果</h2>
+
+<ul id="historyList"></ul>
+
+  </div>
+
+</div>
 
 <p class="footer">今日のご飯をランダム提案</p>
 
   </div>
 
   <script>
+
+const result =
+document.getElementById("result");
+
+const typeSelect =
+document.getElementById("type");
+
+const mealImage =
+document.getElementById("mealImage");
+
+const historyList =
+document.getElementById("historyList");
+
+const button =
+document.getElementById("chooseButton");
+
+let historyData = [];
+
+button.addEventListener("click", chooseMeal);
+
+mealImage.onerror = () => {
+  mealImage.src = "images/default.jpg";
+};
+
+const savedHistory = localStorage.getItem("mealHistory");
+
+if (savedHistory) {
+
+  historyData = JSON.parse(savedHistory);
+
+  historyData.forEach(mealName => {
+
+    const li = document.createElement("li");
+
+    li.textContent = mealName;
+
+    historyList.appendChild(li);
+
+  });
+
+}
+
     const meals = [
 
   { name: "カレー", type: "heavy", image: "images/curry.jpg" },
@@ -184,7 +276,7 @@ select {
   { name: "ハンバーグ", type: "heavy", image: "images/hamburg.jpg" },
   { name: "ステーキ", type: "heavy", image: "images/steak.jpg" },
   { name: "チャーハン", type: "heavy", image: "images/friedrice.jpg" },
-  { name: "唐揚げ定食", type: "heavy", image: "images/karaage.jpg" },
+  { name: "唐揚げ", type: "heavy", image: "images/karaage.jpg" },
   { name: "牛丼", type: "heavy", image: "images/gyudon.jpg" },
   { name: "天丼", type: "heavy", image: "images/tendon.jpg" },
 
@@ -211,15 +303,9 @@ select {
 
 ];
 
-  function chooseMeal() {
+function chooseMeal() {
 
-  const button =
-  document.querySelector("button");  
-  const result = document.getElementById("result");
-  const type = document.getElementById("type").value;
-  
-  const mealImage =
-  document.getElementById("mealImage");
+  const type = typeSelect.value;
 
   let filtered = meals;
   if (type !== "all") {
@@ -262,6 +348,28 @@ setTimeout(() => {
 
         result.textContent = "🎯 " + filtered[finalIndex].name;
 
+const li = document.createElement("li");
+
+li.textContent =
+filtered[finalIndex].name;
+
+historyList.prepend(li);
+
+historyData.unshift(filtered[finalIndex].name);
+
+if (historyData.length > 5) {
+  historyData.pop();
+}
+
+localStorage.setItem(
+  "mealHistory",
+  JSON.stringify(historyData)
+);
+
+if (historyList.children.length > 5) {
+  historyList.removeChild(historyList.lastChild);
+}
+
         result.classList.remove("pop");
         void result.offsetWidth; 
         result.classList.add("pop");
@@ -271,9 +379,6 @@ setTimeout(() => {
     }
   }, 80);
 }
-
-const button =
-document.querySelector("button");
 
   </script>
 
