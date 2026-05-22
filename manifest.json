@@ -1,0 +1,20 @@
+{
+  "name": "今日なに食べよーかな",
+  "short_name": "ごはんガチャ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#3a3a3a",
+  "theme_color": "#ff7f50",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
