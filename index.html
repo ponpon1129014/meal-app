@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>今日なに食べよーかな</title>
-  
+  <link rel="manifest" href="manifest.json">
 
   <style>
 
@@ -91,9 +91,15 @@ button:hover:not(:disabled) {
   color: white;
   text-align: left;
   padding-left: 20px;
+
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #historyList li {
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 8px;
   margin-bottom: 8px;
 }
 
@@ -174,6 +180,13 @@ color: #333;
 
   min-width: 140px;
   width: 140px;
+max-height: 300px;
+overflow-y: auto;
+}
+
+.history-area h2 {
+  font-size: 18px;
+  margin-top: 0;
 }
 
   </style>
@@ -378,6 +391,17 @@ if (historyList.children.length > 5) {
       }, 150);
     }
   }, 80);
+}
+
+  self.addEventListener("install", event => {
+  console.log("Service Worker installed");
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => {
+      console.log("Service Worker Registered");
+    });
 }
 
   </script>
