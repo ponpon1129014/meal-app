@@ -63,6 +63,42 @@
       transition: all 0.2s ease;
     }
 
+.filter-buttons {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  border: none;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  background: #f0f0f0;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: #ff7f50;
+  color: white;
+}
+
     button:active {
     transform: scale(0.95);
     }
@@ -80,10 +116,11 @@ button:hover:not(:disabled) {
 #historyList {
   color: white;
   text-align: left;
-  padding-left: 20px;
 
-  max-height: 300px;
-  overflow-y: auto;
+  list-style: none;
+
+  padding: 0;
+  margin: 0;
 }
 
 #historyList li {
