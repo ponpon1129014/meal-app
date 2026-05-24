@@ -1,6 +1,9 @@
 const result =
 document.getElementById("result");
 
+const guideMessage =
+document.getElementById("guideMessage");
+
 const mealImage =
 document.getElementById("mealImage");
 
@@ -13,6 +16,9 @@ document.getElementById("chooseButton");
 const filterButtons =
 document.querySelectorAll(".filter-btn");
 
+const mealCard =
+document.querySelector(".meal-card");
+
 let selectedTypes = [];
 
 let historyData = [];
@@ -22,17 +28,6 @@ button.addEventListener("click", chooseMeal);
 filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     const type = btn.dataset.type;
-
-    if (type === "all") {
-      if (selectedTypes.length === 0) {
-        selectedTypes = ["light", "normal", "heavy"];
-      } else {
-        selectedTypes = [];
-      }
-
-      syncUI();
-      return;
-    }
     
     const index = selectedTypes.indexOf(type);
 
@@ -47,25 +42,24 @@ filterButtons.forEach(btn => {
 });
 
 function syncUI() {
-  const allBtn = document.querySelector(".filter-btn[data-type='all']");
-  const normalBtns = document.querySelectorAll(".filter-btn:not([data-type='all'])");
 
-  filterButtons.forEach(b => b.classList.remove("active"));
+  filterButtons.forEach(btn => {
 
-    if (selectedTypes.length === 0) {
-    return; 
-    }
-
-  if (selectedTypes.includes("all")) {
-    filterButtons.forEach(b => b.classList.add("active"));
-    return;
-  }
-
-  normalBtns.forEach(btn => {
     if (selectedTypes.includes(btn.dataset.type)) {
       btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
     }
+
   });
+
+  const hasSelected = selectedTypes.length > 0;
+
+  button.disabled = !hasSelected;
+
+guideMessage.textContent =
+  hasSelected ? "" : "ジャンルを選んでね 🍚";
+
 }
 
 mealImage.onerror = () => {
@@ -90,6 +84,21 @@ function addHistory(mealName, isNew = true) {
   const li = document.createElement("li");
 
   li.textContent = mealName;
+  li.dataset.name = mealName;
+
+li.addEventListener("click", () => {
+
+  const meal = meals.find(
+    m => m.name === li.dataset.name
+  );
+
+  if (!meal) return;
+
+  result.textContent = "🍽️ " + meal.name;
+
+  mealImage.src = meal.image;
+
+});
 
   if (isNew) {
     historyList.prepend(li);
@@ -110,27 +119,35 @@ function chooseMeal() {
     filtered = meals.filter(m => selectedTypes.includes(m.type));
   }
 
-  let count = 0;
-  const maxCount = 15;
-
   result.textContent = "ガチャ中...";
   result.classList.add("spinning");
   button.disabled = true;
 
-  const interval = setInterval(() => {
+filterButtons.forEach(btn => {
+  btn.disabled = true;
+});
+
+  let count = 0;
+  let speed = 40; //
+
+  const maxCount = 14;
+
+  function spin() {
+
     const randomIndex = Math.floor(Math.random() * filtered.length);
     result.textContent = filtered[randomIndex].name;
 
     count++;
 
-    if (count >= maxCount) {
-      clearInterval(interval);
+    speed += 8;
 
-      result.classList.remove("spinning");
+    if (count < maxCount) {
+      setTimeout(spin, speed);
+    } else {
+
+      const finalIndex = Math.floor(Math.random() * filtered.length);
 
       setTimeout(() => {
-
-        const finalIndex = Math.floor(Math.random() * filtered.length);
 
         mealImage.style.opacity = 0;
 
@@ -139,13 +156,44 @@ function chooseMeal() {
           mealImage.style.opacity = 1;
         }, 150);
 
-        result.textContent = "🎯 " + filtered[finalIndex].name;
+        const selectedMeal = filtered[finalIndex].name;
 
-        button.disabled = false;
+result.textContent = "🎯 " + selectedMeal;
 
-      }, 150);
+addHistory(selectedMeal);
+
+historyData.unshift(selectedMeal);
+
+if (historyData.length > 10) {
+  historyData.pop();
+}
+
+localStorage.setItem(
+  "mealHistory",
+  JSON.stringify(historyData)
+);
+
+result.classList.remove("spinning");
+
+result.classList.remove("pop");
+void result.offsetWidth;
+result.classList.add("pop");
+
+mealCard.classList.remove("flash");
+void mealCard.offsetWidth;
+mealCard.classList.add("flash");
+
+button.disabled = false;
+
+filterButtons.forEach(btn => {
+  btn.disabled = false;
+});
+
+      }, 300);
     }
-  }, 80);
+  }
+
+  spin();
 }
 
 if ("serviceWorker" in navigator) {
@@ -153,5 +201,10 @@ if ("serviceWorker" in navigator) {
     .then(() => {
       console.log("Service Worker Registered");
     });
+    
+syncUI();
+
+
+
 }
 
