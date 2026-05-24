@@ -313,7 +313,8 @@ overflow: hidden;
   }
 
   .content {
-    gap: 10px;
+    flex-direction: column;
+    height: auto;
   }
 
   .meal-card {
@@ -329,11 +330,8 @@ overflow: hidden;
     font-size: 13px;
   }
 
-  .side-column {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-      min-height: 0;
+ .side-column {
+    flex-direction: column;
   }
 
   .history-area,
