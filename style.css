@@ -331,12 +331,15 @@ overflow: hidden;
   }
 
  .side-column {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
   }
 
   .history-area,
   .comment-area {
     flex: 1;
+     min-height: 120px; 
   }
 
 }
