@@ -1,11 +1,12 @@
-const CACHE_NAME = "gacha-v1";
+const CACHE_NAME = "gacha-v1.1";
 
 const urlsToCache = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
-  "./meals.js"
+  "./meals.js",
+  "./images/default.jpg"
 ];
 
 self.addEventListener("install", event => {
@@ -16,6 +17,30 @@ self.addEventListener("install", event => {
       .then(cache => {
         return cache.addAll(urlsToCache);
       })
+
+  );
+
+});
+
+self.addEventListener("activate", event => {
+
+  event.waitUntil(
+
+    caches.keys().then(cacheNames => {
+
+      return Promise.all(
+
+        cacheNames.map(cache => {
+
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+
+        })
+
+      );
+
+    })
 
   );
 
