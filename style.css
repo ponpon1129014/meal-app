@@ -314,7 +314,7 @@ overflow: hidden;
 
   .content {
     flex-direction: column;
-    height: auto;
+    height:  100dvh;
   }
 
   .meal-card {
@@ -331,15 +331,19 @@ overflow: hidden;
   }
 
  .side-column {
-    display: flex;
     flex-direction: row;
-    gap: 10px;
+    flex: 1;
+    min-height: 0; 
   }
 
-  .history-area,
+  .history-area {
+  overflow-y: auto;
+}
+
   .comment-area {
     flex: 1;
-     min-height: 120px; 
+    min-height: 0;   
+    overflow: hidden; 
   }
 
 }
