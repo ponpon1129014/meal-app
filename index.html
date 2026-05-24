@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta
   name="description"
-  content="今日のご飯をランダム提案する無料ご飯ガチャアプリ"
 >
   <title>今日なに食べよーかな</title>
   <link rel="manifest" href="manifest.json">
@@ -16,81 +15,55 @@
 </head>
 
 <body>
-
   <div class="container">
+
     <h1>今日なに食べよーかな？</h1>
 
-<div class="content">
+    <div class="meal-card">
 
- <div class="meal-card">
-
-  <div class="filter-buttons">
-
-  <button class="filter-btn"
-          data-type="light">
-    あっさり
-  </button>
-
-  <button class="filter-btn"
-          data-type="normal">
-    そこそこ
-  </button>
-
-  <button class="filter-btn"
-          data-type="heavy">
-    がっつり
-  </button>
-
-</div>
-
-<div class="image-frame">
-  <img id="mealImage" src="images/default.jpg" alt="">
-</div>
-
-<div class="result-card">
-  <div id="result">？？？</div>
-</div>
-
-  <p id="guideMessage"></p>
-  <p id="selectedLabel"></p>
-
-    <button id="chooseButton">
-      これにする！
-    </button>
-
+      <div class="filter-buttons">
+        <button class="filter-btn" data-type="light">あっさり</button>
+        <button class="filter-btn" data-type="normal">そこそこ</button>
+        <button class="filter-btn" data-type="heavy">がっつり</button>
       </div>
 
-<div class="side-column">
+      <div class="image-frame">
+        <img id="mealImage" src="images/default.jpg" alt="">
+      </div>
 
-  <div class="history-area">
+      <div class="result-card">
+        <div id="result">？？？</div>
+      </div>
 
-    <h2>最近の結果</h2>
+      <p id="guideMessage"></p>
+      <p id="selectedLabel"></p>
 
-    <ul id="historyList"></ul>
+      <button id="chooseButton">これにする！</button>
+
+    </div>
+
+    <div class="side-column">
+
+      <div class="history-area">
+        <h2>最近の結果</h2>
+        <ul id="historyList"></ul>
+      </div>
+
+      <div class="comment-area">
+        <h2>ひとこと</h2>
+        <p id="commentText">今日なに食べる？ 🍚</p>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+  ごはんが決められないあなたに今日のごはんを提案するアプリです。
+</footer>
 
   </div>
 
-  <div class="comment-area">
-
-    <h2>ひとこと</h2>
-
-    <p id="commentText">
-      今日なに食べる？ 🍚
-    </p>
-
-  </div>
-
-</div>
-
-</div>
-<p class="footer">今日のご飯をランダム提案</p>
-</div>
-
-
-
-  </div>
-
-    <script src="meals.js"></script>
+  <script src="meals.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>

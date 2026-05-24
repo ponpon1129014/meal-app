@@ -1,35 +1,50 @@
-    body {
-      font-family: sans-serif;
-      background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px 0;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
+  font-family: sans-serif;
 
-    .container {
-      background: gray;
-      padding: 24px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 1000px;
-        max-height: 100dvh;
-         height: 100dvh;
+}
+
+.main {
+  flex: 1;
+
+  display: flex;
+  gap: 16px;
+}
+
+.side {
+  flex: 1;
+
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-    }
+  gap: 16px;
+  min-width: 0;
+}
 
-    h1 {
-     margin-top: 0;  
-       font-size: 28px;
-      margin-bottom: 14px;
-      color: white;
-    }
+   .container {
+  width: min(1000px, 95vw);
+
+  min-height: 100vh;
+
+  margin: 0 auto;
+  padding: 16px 0;
+
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+}
+
+h1 {
+  flex: 0 0 100%;
+  margin: 0;
+  padding: 12px 0;
+  color: white;
+
+}
 
 .result-card {
   background: #fff;
@@ -64,14 +79,6 @@
   100% { transform: scale(1); }
 }
 
-.side-column {
-   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex: 1;
-    min-height: 0;
-}
-     
 .spinning {
   transform: scale(1.1);
   opacity: 0.5;
@@ -157,6 +164,8 @@ button:hover:not(:disabled) {
   margin-bottom: 6px;
    cursor: pointer;
    font-size: 16px;
+     word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 #historyList li:hover {
@@ -179,33 +188,6 @@ button:hover:not(:disabled) {
   flex-shrink: 0;
 }
 
-.meal-card {
-  background: white;
-
-  border-radius: 20px;
-
-  padding: 20px;
-
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-
-  transition: transform 0.2s ease;
-
-   flex: 3;
-
-    overflow: hidden;
-  display: flex;
-  flex-direction: column;
-   gap: 10px;
-  min-height: 0;
-}
-
-#mealImage {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  max-height: none;
-  object-fit: cover;
-}
-
 select {
   width: 100%;
   padding: 12px;
@@ -219,17 +201,46 @@ color: #333;
 }
 
 .footer {
+  text-align: center;
   color: white;
-  font-size: 12px;
-  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
 }
 
-.content {
+.meal-card {
+flex: 2;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+
   display: flex;
-  gap: 20px;
-  align-items: stretch;
-   flex: 1;
+  flex-direction: column;
   min-height: 0;
+    min-width: 0;
+}
+
+#chooseButton {
+  margin-top: auto;
+}
+
+#mealImage {
+  width: 100%;
+    height: auto;
+  aspect-ratio: 1 / 1;
+  max-height: none;
+  object-fit: cover;
+}
+
+.side-column {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  min-height: 0;
+    min-width: 0;
+      overflow: hidden;
 }
 
 .history-area {
@@ -238,12 +249,10 @@ color: #333;
   padding: 16px;
   border-radius: 20px;
   color: white;
-overflow-y: auto;
-display: flex;
-flex-direction: column;
-  flex: 1;
-    min-height: 0;
-    overflow-x: hidden;
+    flex: 1;
+   min-height: 0;
+  overflow: auto;
+      min-width: 0;
 }
 
 .comment-area {
@@ -252,14 +261,11 @@ flex-direction: column;
   padding: 20px;
   border-radius: 20px;
   color: white;
+  
   flex: 1;
-    min-height: 0;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-overflow: hidden;
   min-height: 0;
+  overflow: auto;
+      min-width: 0;
 
 }
 
@@ -317,56 +323,17 @@ overflow: hidden;
   transform: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
-  h1 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .content {
-    flex: 1;
-    min-height: 0;
+  .main {
     flex-direction: column;
   }
 
   .meal-card {
-    padding: 12px;
+    flex: none;
   }
 
-  #result {
-    font-size: 18px;
+  .side {
+    flex-direction: column;
   }
-
-  button {
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-
- .side-column {
-    flex: 1;
-    min-height: 0; 
-  }
-
-  .history-area {
-  overflow-y: auto;
-  
-}
-
-  .comment-area {
-    flex: 1;
-    min-height: 0;   
-    overflow: hidden; 
-  }
-
-}
-
-#commentText {
-
-  margin: 0;
-
-  line-height: 1.6;
-
-  font-size: 14px;
-
 }
