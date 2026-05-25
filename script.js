@@ -1,9 +1,6 @@
 const result =
 document.getElementById("result");
 
-const guideMessage =
-document.getElementById("guideMessage");
-
 const selectedLabel =
 document.getElementById("selectedLabel");
 
@@ -94,36 +91,23 @@ filterButtons.forEach(btn => {
 function syncUI() {
 
   filterButtons.forEach(btn => {
-
     if (selectedTypes.includes(btn.dataset.type)) {
       btn.classList.add("active");
     } else {
       btn.classList.remove("active");
     }
-
   });
 
   const hasSelected = selectedTypes.length > 0;
-
   button.disabled = !hasSelected;
 
-guideMessage.textContent =
-  hasSelected ? "" : "ジャンルを選んでね 🍚";
-
-if (selectedTypes.length === 0) {
-
-  selectedLabel.textContent =
-    "ジャンル未選択";
-
-} else {
-
-  selectedLabel.textContent =
-    "選択中：" + selectedTypes
-  .map(type => typeLabels[type])
-  .join("・");
-
-}
-
+  if (selectedTypes.length === 0) {
+    selectedLabel.textContent = "ジャンルを選んでね 🍚";
+  } else {
+    selectedLabel.textContent = "選択中：" + selectedTypes
+      .map(type => typeLabels[type])
+      .join("・");
+  }
 }
 
 mealImage.onerror = () => {
@@ -292,13 +276,6 @@ filterButtons.forEach(btn => {
 
   spin();
 }
-
-resultCard.classList.add("spinning");
-resultCard.classList.remove("spinning");
-resultCard.classList.remove("pop");
-void resultCard.offsetWidth;
-resultCard.classList.add("pop");
-
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");

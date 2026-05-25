@@ -24,49 +24,42 @@
 
 <body>
   <div class="container">
-
     <h1>今日なに食べよーかな？</h1>
 
-    <div class="meal-card">
+    <div class="main">
 
-      <div class="filter-buttons">
-        <button class="filter-btn" data-type="light">あっさり</button>
-        <button class="filter-btn" data-type="normal">そこそこ</button>
-        <button class="filter-btn" data-type="heavy">がっつり</button>
+      <div class="meal-card">
+        <div class="filter-buttons">
+          <button class="filter-btn" data-type="light">あっさり</button>
+          <button class="filter-btn" data-type="normal">そこそこ</button>
+          <button class="filter-btn" data-type="heavy">がっつり</button>
+        </div>
+        <div class="image-frame">
+          <img id="mealImage" src="images/default.jpg" alt="">
+        </div>
+        <div class="result-card">
+          <div id="result">？？？</div>
+        </div>
+        <p id="selectedLabel"></p>
+        <button id="chooseButton">これにする！</button>
       </div>
 
-      <div class="image-frame">
-        <img id="mealImage" src="images/default.jpg" alt="">
-      </div>
-
-      <div class="result-card">
-        <div id="result">？？？</div>
-      </div>
-
-      <p id="guideMessage"></p>
-      <p id="selectedLabel"></p>
-
-      <button id="chooseButton">これにする！</button>
-
-    </div>
-
-    <div class="side-column">
-
-      <div class="history-area">
-        <h2>最近の結果</h2>
-        <ul id="historyList"></ul>
-      </div>
-
-      <div class="comment-area">
-        <h2>ひとこと</h2>
-        <p id="commentText">今日なに食べる？ 🍚</p>
+      <div class="side-column">
+        <div class="history-area">
+          <h2>最近の結果</h2>
+          <ul id="historyList"></ul>
+        </div>
+        <div class="comment-area">
+          <h2>ひとこと</h2>
+          <p id="commentText">今日なに食べる？ 🍚</p>
+        </div>
       </div>
 
     </div>
 
     <footer class="footer">
-  ごはんが決められないあなたに今日のごはんを提案するアプリです。
-</footer>
+      ごはんが決められないあなたに今日のごはんを提案するアプリです。
+    </footer>
 
   </div>
 
