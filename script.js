@@ -159,8 +159,8 @@ li.addEventListener("click", () => {
   if (!meal) return;
 
   result.textContent = "🍽️ " + meal.name;
-
   mealImage.src = meal.image;
+  mealImage.alt = meal.name;
 
 selectedLabel.textContent =
   "ジャンル：" + typeLabels[meal.type];
@@ -243,6 +243,8 @@ filterButtons.forEach(btn => {
 
 result.textContent =
   "🎯 " + selectedMeal.name;
+  mealImage.src = selectedMeal.image;
+mealImage.alt = selectedMeal.name; 
 
 const categoryComments =
   comments[selectedMeal.category]
@@ -299,14 +301,8 @@ resultCard.classList.add("pop");
 
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => {
-      console.log("Service Worker Registered");
-    });
-    
-syncUI();
-
-
-
+  navigator.serviceWorker.register("service-worker.js");
 }
+
+syncUI();
 
