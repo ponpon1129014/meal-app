@@ -26,12 +26,8 @@ body {
 
    .container {
   width: min(1000px, 95vw);
-
-  min-height: 100vh;
-
   margin: 0 auto;
   padding: 16px 0;
-
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
@@ -233,40 +229,34 @@ flex: 2;
 
 .side-column {
   flex: 1;
-
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  min-height: 0;
-    min-width: 0;
-      overflow: hidden;
+  min-width: 220px;
+  min-height: 0;        
+  overflow: hidden;
 }
 
 .history-area {
-  background: rgba(255,255,255,0.1);
+   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(5px);
   padding: 16px;
   border-radius: 20px;
   color: white;
-    flex: 1;
-   min-height: 0;
-  overflow: auto;
-      min-width: 0;
-}
-
-.comment-area {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(5px);
-  padding: 20px;
-  border-radius: 20px;
-  color: white;
-  
   flex: 1;
   min-height: 0;
   overflow: auto;
-      min-width: 0;
+}
 
+.comment-area {
+   background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(5px);
+  padding: 16px;
+  border-radius: 20px;
+  color: white;
+  flex: 1;
+  min-height: 0; 
+  overflow: auto;
 }
 
 #selectedLabel {
@@ -325,15 +315,32 @@ flex: 2;
 
 @media (max-width: 768px) {
 
-  .main {
+  .container {
     flex-direction: column;
+    padding: 12px;
+    gap: 12px;   
   }
 
   .meal-card {
     flex: none;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .side {
-    flex-direction: column;
+  .side-column {
+    flex: none;
+    width: 100%;
+    box-sizing: border-box;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .history-area,
+  .comment-area {
+    flex: 1;
+    min-width: 0;
+    min-height: 120px;
+    max-height: 200px;
+    overflow-y: auto;
   }
 }
