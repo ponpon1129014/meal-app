@@ -265,6 +265,10 @@ button:hover:not(:disabled) {
     flex: none;
   }
 
+    .image-frame {
+    max-height: 25vh; /* 追加 */
+  }
+
   .meal-card {
     flex: none;
     width: 100%;
