@@ -146,6 +146,14 @@ li.addEventListener("click", () => {
   mealImage.src = meal.image;
   mealImage.alt = meal.name;
 
+  const detailLink = document.getElementById("detailLink");
+  if (meal.id) {
+    detailLink.href = "menu/" + meal.id + ".html";
+    detailLink.style.display = "block";
+  } else {
+    detailLink.style.display = "none";
+  }
+
 selectedLabel.textContent =
   "ジャンル：" + typeLabels[meal.type];
 
@@ -225,10 +233,17 @@ filterButtons.forEach(btn => {
 
         const selectedMeal = filtered[finalIndex];
 
-result.textContent =
-  "🎯 " + selectedMeal.name;
-  mealImage.src = selectedMeal.image;
+result.textContent =  "🎯 " + selectedMeal.name;
+mealImage.src = selectedMeal.image;
 mealImage.alt = selectedMeal.name; 
+
+const detailLink = document.getElementById("detailLink");
+if (selectedMeal.id) {
+  detailLink.href = "menu/" + selectedMeal.id + ".html";
+  detailLink.style.display = "block";
+} else {
+  detailLink.style.display = "none";
+}
 
 const categoryComments =
   comments[selectedMeal.category]
