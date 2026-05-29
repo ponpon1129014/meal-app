@@ -264,10 +264,9 @@ if (historyData.length > 10) {
   historyData.pop();
 }
 
-localStorage.setItem(
-  "mealHistory",
-  JSON.stringify(historyData)
-);
+localStorage.setItem(  "mealHistory",  JSON.stringify(historyData));
+localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
+
 
 result.classList.remove("spinning");
 
@@ -294,6 +293,19 @@ filterButtons.forEach(btn => {
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
+}
+
+const params = new URLSearchParams(window.location.search);
+const typesParam = params.get("types");
+if (typesParam) {
+  try {
+    const parsed = JSON.parse(typesParam);
+    if (Array.isArray(parsed)) {
+      selectedTypes = parsed;
+      syncUI();
+      chooseMeal(); 
+    }
+  } catch(e) {}
 }
 
 syncUI();
