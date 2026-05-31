@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
+   background: linear-gradient(135deg, #ffb380, #e8622a);
   font-family: sans-serif;
 }
 
@@ -21,7 +21,7 @@ body {
 h1 {
   margin: 0;
   padding: 12px 0;
-  color: white;
+  color: #5c2400;
   flex-shrink: 0;
 }
 
@@ -31,38 +31,39 @@ h1 {
   gap: 16px;
   min-height: 0;
   width: 100%; 
+  justify-content: center;
 }
 
 .meal-card {
-  flex: 2;
-  max-width: 600px;
+  flex: 0 0 350px;
+  max-width: 350px;
   background: white;
   border-radius: 20px;
-  padding: 12px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
-   justify-content: normal;
+  overflow: visible;
+  justify-content: normal;
 }
 
 .side-column {
-  flex: 1;
+  flex: 0 0 200px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: 220px;
+  min-width: 0;
   min-height: 0;
 }
 
 .history-area,
 .comment-area {
    max-width: 200px;
-  background: rgba(255,255,255,0.1);
+ background: rgba(255,255,255,0.25);
   backdrop-filter: blur(5px);
   padding: 16px;
   border-radius: 20px;
-  color: white;
+   color: #5c2400;
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -72,12 +73,13 @@ h1 {
 .comment-area h2 {
   font-size: 16px;
   margin-top: 0;
+  color: #3d1600;
 }
 
 .image-frame {
-  width: 100%;
+  width: min(100%, 32vh);
   aspect-ratio: 1 / 1;
-  max-height:35vh;
+  align-self: center;
   border-radius: 15px;
   overflow: hidden;
   background: #eee;
@@ -99,11 +101,15 @@ h1 {
   background: #fff;
   border-radius: 14px;
   padding: 12px 16px;
-  margin: 10px 0;
+  margin: 6px 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   border: 1px solid rgba(0,0,0,0.06);
-  overflow: hidden;
-  text-align: center;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
 }
 
 .result-card.spinning {
@@ -199,7 +205,7 @@ button:hover:not(:disabled) {
 }
 
 #historyList {
-  color: white;
+    color: #5c2400;
   text-align: left;
   list-style: none;
   padding: 0;
@@ -207,7 +213,7 @@ button:hover:not(:disabled) {
 }
 
 #historyList li {
-  background: rgba(255,255,255,0.1);
+ background: rgba(255,255,255,0.25);
   padding: 8px 10px;
   border-radius: 8px;
   margin-bottom: 6px;
@@ -218,7 +224,7 @@ button:hover:not(:disabled) {
 }
 
 #historyList li:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.4);
 }
 
 #historyList li:last-child {
@@ -234,7 +240,7 @@ button:hover:not(:disabled) {
 
 .footer {
   text-align: center;
-  color: white;
+  color: #5c2400;
   padding: 12px;
   flex-shrink: 0;
 }

@@ -1,0 +1,314 @@
+/* ベース */
+.container {
+  height: auto;
+  overflow: visible;
+}
+
+.menu-detail {
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.menu-detail h2 {
+  font-size: 15px;
+  color: #8b4a1a;
+  margin: 0 0 10px 0;
+}
+
+/* 2カラム */
+.menu-columns {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.menu-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-right {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 画像 */
+.menu-left img {
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 12px;
+}
+
+/* h1 */
+.menu-detail h1 {
+  color: #3d1600;
+  margin: 0 0 12px 0;
+  padding: 0;
+  font-size: 22px;
+}
+
+/* 説明文 */
+#description {
+  color: #5c2400;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 12px 0;
+}
+
+/* タグ */
+#tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 16px 0;
+}
+
+.tag {
+background: rgba(255,255,255,0.3);
+  color: #5c2400;
+  border: 1px solid rgba(255,127,80,0.6);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.tag:hover {
+  background: #ff7f50;
+  color: white;
+}
+
+/* 情報カード */
+.info-cards {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 16px 0;
+}
+
+.info-card {
+  flex: 1;
+  background: #fdf0e0;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 11px;
+  color: #a06040; 
+}
+
+.info-value {
+  font-size: 14px;
+  color: #8b4a1a;
+  letter-spacing: 1px;
+}
+
+/* 相性のいい料理 */
+.pairing {
+  margin: 0 0 8px 0;
+}
+
+.pairing ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pairing li a {
+  display: block;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,127,80,0.4);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  text-decoration: none;
+   color: #5c2400;
+  transition: background 0.2s;
+}
+
+.pairing li a:hover {
+  background: rgba(255,127,80,0.4);
+  color: #3d1600;
+
+}
+
+/* レシピリンク */
+.recipe-links {
+  margin: 0 0 8px 0;
+}
+
+.recipe-links a {
+  display: block;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,127,80,0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  text-decoration: none;
+   color: #5c2400;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+
+.recipe-links a:hover {
+  background: rgba(255,255,255,0.5);
+}
+
+/* 下部エリア */
+.menu-bottom {
+  border-top: 1px solid rgba(200,120,60,0.6);
+  padding-top: 12px;
+    margin-top: 8px
+}
+
+/* 同じジャンルのメニュー */
+.same-type-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.same-type-list li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,127,80,0.4);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 13px;
+  text-decoration: none;
+ color: #5c2400;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.same-type-list li a:hover {
+    background: rgba(255,127,80,0.4);
+  color: #3d1600;
+}
+
+/* 引き直しボタン */
+.redraw-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 20px 0;
+    background: WHITE;
+  border-radius: var(--border-radius-lg, 12px);
+  padding: 14px;
+  border: 1px solid rgba(255, 127, 80, 0.3);
+}
+
+.redraw-buttons button {
+  flex: 1;
+}
+
+/* シェアボタン（一番下） */
+.share-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.share-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin: 0 0 6px 0;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+}
+
+.share-buttons a {
+  text-align: center;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+#shareX {
+  background: #000;
+  color: #fff !important;
+}
+
+#shareLine {
+  background: #06c755;
+  color: #fff !important;
+}
+
+#shareFacebook {
+  background: #1877f2;
+  color: #fff !important;
+}
+
+/* タグ一覧ページ */
+.tag-page {
+  color: white;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tag-page h1 {
+  margin-bottom: 24px;
+}
+
+.tag-page > a {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+#tagMealList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+#tagMealList li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 16px;
+  text-decoration: none;
+  color: white !important;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+#tagMealList li a:hover {
+  background: rgba(255,255,255,0.2);
+}

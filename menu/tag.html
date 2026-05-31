@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タグ一覧 | 今日なに食べよーかな</title>
+  <meta name="description" content="">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+  <div class="container">
+    <div class="tag-page">
+      <h1 id="tagTitle"></h1>
+      <ul id="tagMealList"></ul>
+      <a href="../index.html">← トップに戻る</a>
+    </div>
+  </div>
+
+  <script src="../meals.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const tagName = params.get("name");
+
+    if (tagName) {
+      document.title = tagName + " | 今日なに食べよーかな";
+      document.querySelector('meta[name="description"]')
+        .setAttribute("content", tagName + "に該当するメニューの一覧です。");
+      document.getElementById("tagTitle").textContent = "🏷️ " + tagName;
+
+      const filtered = meals.filter(m => m.tags.includes(tagName));
+      const list = document.getElementById("tagMealList");
+
+      filtered.forEach(m => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = m.id + ".html";
+        a.textContent = m.emoji + " " + m.name;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

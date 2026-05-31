@@ -34,6 +34,7 @@ document.getElementById("commentText");
 let selectedTypes = [];
 
 let historyData = [];
+let isSpinning = false;
 
 const comments = {
 
@@ -135,6 +136,7 @@ function addHistory(mealName, isNew = true) {
   li.dataset.name = mealName;
 
 li.addEventListener("click", () => {
+  if (isSpinning) return;
 
   const meal = meals.find(
     m => m.name === li.dataset.name
@@ -194,9 +196,13 @@ function chooseMeal() {
     filtered = meals.filter(m => selectedTypes.includes(m.type));
   }
 
+    const detailLink = document.getElementById("detailLink");
+  detailLink.style.display = "none";
+
   result.textContent = "ガチャ中...";
   result.classList.add("spinning");
   button.disabled = true;
+  isSpinning = true;
 
 filterButtons.forEach(btn => {
   btn.disabled = true;
@@ -278,7 +284,9 @@ mealCard.classList.remove("flash");
 void mealCard.offsetWidth;
 mealCard.classList.add("flash");
 
+button.textContent = "もう一回！";
 button.disabled = false;
+isSpinning = false;
 
 filterButtons.forEach(btn => {
   btn.disabled = false;
@@ -303,10 +311,9 @@ if (typesParam) {
     if (Array.isArray(parsed)) {
       selectedTypes = parsed;
       syncUI();
-      chooseMeal(); 
+      chooseMeal();
     }
   } catch(e) {}
+} else {
+  syncUI();
 }
-
-syncUI();
-
