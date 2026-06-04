@@ -1,8 +1,12 @@
-const result =
-document.getElementById("result");
-
-const selectedLabel =
-document.getElementById("selectedLabel");
+const result = document.getElementById("result");
+const selectedLabel = document.getElementById("selectedLabel");
+const mealImage = document.getElementById("mealImage");
+const historyList = document.getElementById("historyList");
+const button = document.getElementById("chooseButton");
+const filterButtons = document.querySelectorAll(".filter-btn");
+const mealCard = document.querySelector(".meal-card");
+const resultCard = document.querySelector(".result-card");
+const commentText = document.getElementById("commentText");
 
 const typeLabels = {
   light: "あっさり",
@@ -10,141 +14,183 @@ const typeLabels = {
   heavy: "がっつり"
 };
 
-const mealImage =
-document.getElementById("mealImage");
-
-const historyList =
-document.getElementById("historyList");
-
-const button =
-document.getElementById("chooseButton");
-
-const filterButtons =
-document.querySelectorAll(".filter-btn");
-
-const mealCard =
-document.querySelector(".meal-card");
-
-const resultCard = document.querySelector(".result-card");
-
-const commentText =
-document.getElementById("commentText");
-
+const catLabels = {
+  rice: "ご飯もの",
+  noodle: "麺類",
+  meat: "肉料理",
+  fish: "魚料理",
+  flour: "粉もの・チーズ系",
+  nabe: "鍋・汁物",
+  side: "軽食・サイド"
+};
 
 let selectedTypes = [];
-
+let selectedCats = [];
+let selectedTags = [];
 let historyData = [];
 let isSpinning = false;
 
 const comments = {
-
-  noodle: [
-    "🍜 麺の日かも",
-    "🔥 すすりたい気分",
-    "✨ 熱いうまさ"
-  ],
-
-  rice: [
-    "🍚 米は正義",
-    "✨ 安定感ある",
-    "🍛 満足感ありそう"
-  ],
-
-  meat: [
-    "🥩 パワー補給！",
-    "🔥 がっつりいこう",
-    "💪 スタミナ大事"
-  ],
-
-  light: [
-    "🥗 軽めで整える",
-    "✨ 今日はやさしく",
-    "🍃 バランス大事"
-  ],
-
-  snack: [
-    "🧀 テンション上がる系",
-    "🔥 みんな好きなやつ",
-    "🍴 罪のうまさ"
-  ]
-
+  noodle: ["🍜 麺の日かも", "🔥 すすりたい気分", "✨ 熱いうまさ"],
+  rice:   ["🍚 米は正義", "✨ 安定感ある", "🍛 満足感ありそう"],
+  meat:   ["🥩 パワー補給！", "🔥 がっつりいこう", "💪 スタミナ大事"],
+  light:  ["🥗 軽めで整える", "✨ 今日はやさしく", "🍃 バランス大事"],
+  snack:  ["🧀 テンション上がる系", "🔥 みんな好きなやつ", "🍴 罪のうまさ"],
+  fish:   ["🐟 魚の日！", "✨ さっぱりいこう", "🍣 ヘルシーチョイス"],
+  flour:  ["🧀 粉もんの誘惑", "🍕 チーズ最高", "🔥 これ一択でしょ"],
+  nabe:   ["🍲 体が温まる", "✨ 鍋の季節かも", "🔥 みんなで囲もう"],
+  side:   ["🥗 軽めにいこう", "✨ サクッと済ませる", "🍴 これで十分"]
 };
 
-
-button.addEventListener("click", chooseMeal);
-
+// ── ボリュームボタン ──
 filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     const type = btn.dataset.type;
-    
-    const index = selectedTypes.indexOf(type);
-
-    if (index === -1) {
-      selectedTypes.push(type);
-    } else {
-      selectedTypes.splice(index, 1);
-    }
-
+    const idx = selectedTypes.indexOf(type);
+    if (idx === -1) selectedTypes.push(type);
+    else selectedTypes.splice(idx, 1);
     syncUI();
   });
 });
 
-function syncUI() {
-
-  filterButtons.forEach(btn => {
-    if (selectedTypes.includes(btn.dataset.type)) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
+// ── プルダウン開閉 ──
+function initDropdown(triggerId, panelId) {
+  const trigger = document.getElementById(triggerId);
+  const panel = document.getElementById(panelId);
+  trigger.addEventListener("click", () => {
+    const isOpen = !panel.hidden;
+    panel.hidden = isOpen;
+    trigger.setAttribute("aria-expanded", String(!isOpen));
+    trigger.classList.toggle("open", !isOpen);
+  });
+  document.addEventListener("click", e => {
+    if (!trigger.contains(e.target) && !panel.contains(e.target)) {
+      panel.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.classList.remove("open");
     }
   });
-
-  const hasSelected = selectedTypes.length > 0;
-  button.disabled = !hasSelected;
-
-  if (selectedTypes.length === 0) {
-    selectedLabel.textContent = "ジャンルを選んでね 🍚";
-  } else {
-    selectedLabel.textContent = "選択中：" + selectedTypes
-      .map(type => typeLabels[type])
-      .join("・");
-  }
 }
+initDropdown("catTrigger", "catPanel");
+initDropdown("tagTrigger", "tagPanel");
 
-mealImage.onerror = () => {
-  mealImage.src = "images/default.jpg";
-};
-
-const savedHistory = localStorage.getItem("mealHistory");
-
-if (savedHistory) {
-
-  historyData = JSON.parse(savedHistory);
-
-  historyData.forEach(mealName => {
-
-     addHistory(mealName,false);
+// ── カテゴリチェックボックス ──
+document.querySelectorAll("#catPanel input[type=checkbox]").forEach(cb => {
+  cb.addEventListener("change", () => {
+    selectedCats = [...document.querySelectorAll("#catPanel input:checked")].map(c => c.value);
+    updateBadges("cat");
+    syncUI();
+  });
 });
 
+// ── タグチェックボックス ──
+document.querySelectorAll("#tagPanel input[type=checkbox]").forEach(cb => {
+  cb.addEventListener("change", () => {
+    selectedTags = [...document.querySelectorAll("#tagPanel input:checked")].map(c => c.value);
+    updateBadges("tag");
+    syncUI();
+  });
+});
+
+// ── バッジ更新 ──
+function updateBadges(group) {
+  const badgeContainer = document.getElementById(group + "Badges");
+  const items = group === "cat" ? selectedCats : selectedTags;
+  const labelMap = group === "cat" ? catLabels : null;
+
+  badgeContainer.innerHTML = items.map(val => {
+    const label = labelMap ? (labelMap[val] || val) : val;
+    return `<span class="badge">${label}<button class="badge-x" data-group="${group}" data-val="${val}" aria-label="${label}を外す">✕</button></span>`;
+  }).join("");
+
+  badgeContainer.querySelectorAll(".badge-x").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const g = btn.dataset.group;
+      const v = btn.dataset.val;
+      const cb = document.querySelector(`#${g}Panel input[value="${v}"]`);
+      if (cb) { cb.checked = false; cb.dispatchEvent(new Event("change")); }
+    });
+  });
 }
 
+// ── UI同期 ──
+function syncUI() {
+  filterButtons.forEach(btn => {
+    btn.classList.toggle("active", selectedTypes.includes(btn.dataset.type));
+  });
+
+  const hasVol = selectedTypes.length > 0;
+  button.disabled = !hasVol;
+
+  if (!hasVol) {
+    selectedLabel.textContent = "ジャンルを選んでね 🍚";
+    return;
+  }
+
+  let label = "選択中：" + selectedTypes.map(t => typeLabels[t]).join("・");
+  if (selectedCats.length > 0) {
+    label += "　" + selectedCats.map(c => catLabels[c]).join("・");
+  }
+  if (selectedTags.length > 0) {
+    label += "　" + selectedTags.join("・");
+  }
+  selectedLabel.textContent = label;
+}
+
+// ── 絞り込みロジック ──
+function getFiltered() {
+  let list = meals;
+
+  if (selectedTypes.length > 0) {
+    list = list.filter(m => selectedTypes.includes(m.type));
+  }
+  if (selectedCats.length > 0) {
+    list = list.filter(m => m.category.some(c => selectedCats.includes(c)));
+  }
+  if (selectedTags.length > 0) {
+    list = list.filter(m => selectedTags.every(t => m.tags.includes(t)));
+  }
+
+  return list;
+}
+
+// ── 画像エラー ──
+mealImage.onerror = () => { mealImage.src = "images/default.png"; };
+
+// ── 履歴読み込み ──
+const savedHistory = localStorage.getItem("mealHistory");
+if (savedHistory) {
+  historyData = JSON.parse(savedHistory);
+  historyData.forEach(mealName => addHistory(mealName, false));
+}
+
+// ── 履歴追加 ──
 function addHistory(mealName, isNew = true) {
-
   const li = document.createElement("li");
-
   li.textContent = mealName;
   li.dataset.name = mealName;
 
-li.addEventListener("click", () => {
-  if (isSpinning) return;
+  li.addEventListener("click", () => {
+    if (isSpinning) return;
+    const meal = meals.find(m => m.name === li.dataset.name);
+    if (!meal) return;
+    showMeal(meal);
+    mealCard.classList.remove("flash");
+    void mealCard.offsetWidth;
+    mealCard.classList.add("flash");
+  });
 
-  const meal = meals.find(
-    m => m.name === li.dataset.name
-  );
+  if (isNew) historyList.prepend(li);
+  else historyList.appendChild(li);
 
-  if (!meal) return;
+  if (historyList.children.length > 10) {
+    historyList.removeChild(historyList.lastChild);
+  }
+}
 
-  result.textContent = "🍽️ " + meal.name;
+// ── 結果表示 ──
+function showMeal(meal) {
+  result.textContent = "🎯 " + meal.name;
   mealImage.src = meal.image;
   mealImage.alt = meal.name;
 
@@ -156,153 +202,84 @@ li.addEventListener("click", () => {
     detailLink.style.display = "none";
   }
 
-selectedLabel.textContent =
-  "ジャンル：" + typeLabels[meal.type];
+  const cat = Array.isArray(meal.category) ? meal.category[0] : meal.category;
+  const categoryComments = comments[cat] || comments[meal.category] || ["🍴 おいしく食べよう"];
+  commentText.textContent = categoryComments[Math.floor(Math.random() * categoryComments.length)];
 
-const categoryComments =
-  comments[meal.category]
-  || ["🍴 おいしく食べよう"];
-
-const randomComment =
-  categoryComments[
-    Math.floor(Math.random() * categoryComments.length)
-  ];
-
-commentText.textContent =
-  randomComment;
-
-  mealCard.classList.remove("flash");
-void mealCard.offsetWidth;
-mealCard.classList.add("flash");
-
-});
-
-  if (isNew) {
-    historyList.prepend(li);
-  } else {
-    historyList.appendChild(li);
-  }
-
-  if (historyList.children.length > 10) {
-    historyList.removeChild(historyList.lastChild);
-  }
+  selectedLabel.textContent = "ジャンル：" + typeLabels[meal.type];
 }
 
+// ── ガチャ本体 ──
+button.addEventListener("click", chooseMeal);
+
 function chooseMeal() {
-
-  let filtered = meals;
-
-  if (selectedTypes.length > 0) {
-    filtered = meals.filter(m => selectedTypes.includes(m.type));
+  const filtered = getFiltered();
+  if (filtered.length === 0) {
+    selectedLabel.textContent = "条件に合う料理がありません 😢";
+    return;
   }
 
-    const detailLink = document.getElementById("detailLink");
+  const detailLink = document.getElementById("detailLink");
   detailLink.style.display = "none";
 
   result.textContent = "ガチャ中...";
   result.classList.add("spinning");
   button.disabled = true;
   isSpinning = true;
-
-filterButtons.forEach(btn => {
-  btn.disabled = true;
-});
+  filterButtons.forEach(btn => { btn.disabled = true; });
 
   let count = 0;
-  let speed = 40; //
-
+  let speed = 40;
   const maxCount = 14;
 
   function spin() {
-
-    const randomIndex = Math.floor(Math.random() * filtered.length);
-    result.textContent = filtered[randomIndex].name;
-
+    result.textContent = filtered[Math.floor(Math.random() * filtered.length)].name;
     count++;
-
     speed += 8;
-
     if (count < maxCount) {
       setTimeout(spin, speed);
     } else {
-
-      const finalIndex = Math.floor(Math.random() * filtered.length);
-
+      const selectedMeal = filtered[Math.floor(Math.random() * filtered.length)];
       setTimeout(() => {
-
         mealImage.style.opacity = 0;
-
         setTimeout(() => {
-          mealImage.src = filtered[finalIndex].image;
+          mealImage.src = selectedMeal.image;
           mealImage.style.opacity = 1;
         }, 150);
 
-        const selectedMeal = filtered[finalIndex];
+        showMeal(selectedMeal);
 
-result.textContent =  "🎯 " + selectedMeal.name;
-mealImage.src = selectedMeal.image;
-mealImage.alt = selectedMeal.name; 
+        addHistory(selectedMeal.name);
+        historyData.unshift(selectedMeal.name);
+        if (historyData.length > 10) historyData.pop();
+        localStorage.setItem("mealHistory", JSON.stringify(historyData));
+        localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
 
-const detailLink = document.getElementById("detailLink");
-if (selectedMeal.id) {
-  detailLink.href = "menu/" + selectedMeal.id + ".html";
-  detailLink.style.display = "block";
-} else {
-  detailLink.style.display = "none";
-}
+        result.classList.remove("spinning");
+        result.classList.remove("pop");
+        void result.offsetWidth;
+        result.classList.add("pop");
 
-const categoryComments =
-  comments[selectedMeal.category]
-  || ["🍴 おいしく食べよう"];
+        mealCard.classList.remove("flash");
+        void mealCard.offsetWidth;
+        mealCard.classList.add("flash");
 
-const randomComment =
-  categoryComments[
-    Math.floor(Math.random() * categoryComments.length)
-  ];
-
-commentText.textContent = randomComment;
-
-addHistory(selectedMeal.name);
-
-historyData.unshift(selectedMeal.name);
-
-if (historyData.length > 10) {
-  historyData.pop();
-}
-
-localStorage.setItem(  "mealHistory",  JSON.stringify(historyData));
-localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
-
-
-result.classList.remove("spinning");
-
-result.classList.remove("pop");
-void result.offsetWidth;
-result.classList.add("pop");
-
-mealCard.classList.remove("flash");
-void mealCard.offsetWidth;
-mealCard.classList.add("flash");
-
-button.textContent = "もう一回！";
-button.disabled = false;
-isSpinning = false;
-
-filterButtons.forEach(btn => {
-  btn.disabled = false;
-});
-
+        button.textContent = "もう一回！";
+        button.disabled = false;
+        isSpinning = false;
+        filterButtons.forEach(btn => { btn.disabled = false; });
       }, 300);
     }
   }
-
   spin();
 }
 
+// ── PWA ──
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
 }
 
+// ── URLパラメータ復元 ──
 const params = new URLSearchParams(window.location.search);
 const typesParam = params.get("types");
 if (typesParam) {

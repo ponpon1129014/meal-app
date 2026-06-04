@@ -13,7 +13,7 @@
 <meta property="og:description" content="今日のごはんが決められないあなたに、ランダムでメニューを提案するアプリです。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ponpon1129014.github.io/meal-app/">
-<meta property="og:image" content="https://ponpon1129014.github.io/meal-app/images/ogp.jpg">
+<meta property="og:image" content="https://ponpon1129014.github.io/meal-app/images/ogp.png">
 
   <title>今日なに食べよーかな</title>
   <link rel="manifest" href="manifest.json">
@@ -29,25 +29,62 @@
     <div class="main">
 
       <div class="meal-card">
-        <div class="filter-buttons">
-          <button class="filter-btn" data-type="light">あっさり</button>
-          <button class="filter-btn" data-type="normal">そこそこ</button>
-          <button class="filter-btn" data-type="heavy">がっつり</button>
+
+        <div class="filter-section">
+          <div class="vol-label">ボリューム（必須）</div>
+          <div class="filter-buttons">
+            <button class="filter-btn" data-type="light">あっさり</button>
+            <button class="filter-btn" data-type="normal">そこそこ</button>
+            <button class="filter-btn" data-type="heavy">がっつり</button>
+          </div>
+
+          <div class="filter-divider"></div>
+
+          <div class="dropdown-wrap">
+            <button class="dropdown-trigger" id="catTrigger" aria-expanded="false">
+              <span id="catTriggerLabel">カテゴリで絞り込む</span>
+              <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="dropdown-panel" id="catPanel" hidden>
+              <label class="chk-item"><input type="checkbox" value="rice"> ご飯もの</label>
+              <label class="chk-item"><input type="checkbox" value="noodle"> 麺類</label>
+              <label class="chk-item"><input type="checkbox" value="meat"> 肉料理</label>
+              <label class="chk-item"><input type="checkbox" value="fish"> 魚料理</label>
+              <label class="chk-item"><input type="checkbox" value="flour"> 粉もの・チーズ系</label>
+              <label class="chk-item"><input type="checkbox" value="nabe"> 鍋・汁物</label>
+              <label class="chk-item"><input type="checkbox" value="side"> 軽食・サイド</label>
+            </div>
+            <div class="badge-row" id="catBadges"></div>
+          </div>
+
+          <div class="dropdown-wrap">
+            <button class="dropdown-trigger" id="tagTrigger" aria-expanded="false">
+              <span id="tagTriggerLabel">気分で絞り込む</span>
+              <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="dropdown-panel" id="tagPanel" hidden>
+              <label class="chk-item"><input type="checkbox" value="辛い"> 辛い</label>
+              <label class="chk-item"><input type="checkbox" value="揚げ物"> 揚げ物</label>
+              <label class="chk-item"><input type="checkbox" value="野菜多め"> 野菜多め</label>
+              <label class="chk-item"><input type="checkbox" value="ごちそう系"> ごちそう系</label>
+              <label class="chk-item"><input type="checkbox" value="ジャンク系"> ジャンク系</label>
+              <label class="chk-item"><input type="checkbox" value="おつまみ系"> おつまみ系</label>
+            </div>
+            <div class="badge-row" id="tagBadges"></div>
+          </div>
         </div>
 
         <div class="image-frame">
-          <img id="mealImage" src="images/default.jpg" alt="">
+          <img id="mealImage" src="images/default.png" alt="">
         </div>
-       
-       <div class="result-card">
-  <div id="result">？？？</div>
-  <a id="detailLink" href="#" style="display:none;">→もっと見る</a>
-</div>
 
-        <a id="detailLink" href="#" style="display:none;">→もっと見る</a>
+        <div class="result-card">
+          <div id="result">？？？</div>
+          <a id="detailLink" href="#" style="display:none;">→もっと見る</a>
+        </div>
 
         <p id="selectedLabel"></p>
-        <button id="chooseButton">これにする！</button>
+        <button id="chooseButton" disabled>これにする！</button>
       </div>
 
       <div class="side-column">

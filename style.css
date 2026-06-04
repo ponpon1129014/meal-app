@@ -6,7 +6,7 @@ body {
 
 .container {
   width: min(1000px, 95vw);
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
   padding: 16px 0;
   display: flex;
@@ -14,8 +14,8 @@ body {
   box-sizing: border-box;
   gap: 8px;
   min-height: 600px;
+  align-items: center;
   overflow: auto;
-  align-items: center
 }
 
 h1 {
@@ -26,7 +26,7 @@ h1 {
 }
 
 .main {
-  flex: 1;
+  flex: none;
   display: flex;
   gap: 16px;
   min-height: 0;
@@ -61,7 +61,7 @@ h1 {
    max-width: 200px;
  background: rgba(255,255,255,0.25);
   backdrop-filter: blur(5px);
-  padding: 16px;
+  padding: 8px;
   border-radius: 20px;
    color: #5c2400;
   flex: 1;
@@ -109,7 +109,7 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: 48px;
+  min-height: 20px;
 }
 
 .result-card.spinning {
@@ -129,7 +129,7 @@ h1 {
 }
 
 #result {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   color: #222;
   min-height: 24px;
@@ -145,7 +145,7 @@ h1 {
 
 .filter-buttons {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   margin-bottom: 10px;
 }
@@ -325,4 +325,138 @@ button:hover:not(:disabled) {
     margin-top: 4px;
 }
 
+}
+/* ── フィルターセクション ── */
+.filter-section {
+  margin-bottom: 8px;
+}
+
+.vol-label {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.filter-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 8px 0;
+}
+
+/* ── プルダウン ── */
+.dropdown-wrap {
+  margin-bottom: 4px;
+}
+
+.dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f7f7;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  text-align: left;
+}
+
+.dropdown-trigger.open {
+  border-color: #ff7f50;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown-trigger:hover {
+  border-color: #ffb399;
+}
+
+.dropdown-arrow {
+  font-size: 12px;
+  color: #aaa;
+  transition: transform 0.2s;
+}
+
+.dropdown-trigger.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-panel {
+  border: 1px solid #ff7f50;
+  border-top: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 8px;
+  background: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.dropdown-panel[hidden] {
+  display: none !important;
+}
+
+.chk-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #444;
+  padding: 5px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.chk-item:hover {
+  background: #fff3ee;
+}
+
+.chk-item input[type="checkbox"] {
+  accent-color: #ff7f50;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── バッジ ── */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 4px;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff3ee;
+  color: #993c1d;
+  border: 1px solid #ffb399;
+  border-radius: 20px;
+  padding: 2px 8px 2px 10px;
+  font-size: 12px;
+}
+
+.badge-x {
+  background: none;
+  border: none;
+  color: #cc6644;
+  font-size: 11px;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.badge-x:hover {
+  opacity: 1;
 }

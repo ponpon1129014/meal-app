@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <h1>${meal.emoji} ${meal.name}</h1>
       <div class="menu-columns">
         <div class="menu-left">
-          <img id="mealImage" src="../${meal.image}" alt="${meal.name}">
+          <img id="mealImage" src="../${meal.image}" alt="${meal.name}" onerror="this.src='../images/default.png'">
            </div>
         <div class="menu-right">
           <p id="description">${meal.description}</p>
@@ -28,10 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="info-label">手に入りやすさ</span>
               <span class="info-value">${renderStars(meal.availability)}</span>
             </div>
-          </div>
-          <div class="pairing">
-            <h2>相性のいい料理</h2>
-            <ul id="pairingList"></ul>
           </div>
           <div class="recipe-links">
             <h2>レシピを探す</h2>
@@ -76,22 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tagContainer.appendChild(a);
   });
 
-  // 相性のいい料理
-  const pairingList = document.getElementById("pairingList");
-  meal.pairing.forEach(id => {
-    const m = meals.find(m => m.id === id);
-    if (!m) return;
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.href = m.id + ".html";
-    a.textContent = m.emoji + " " + m.name;
-    li.appendChild(a);
-    pairingList.appendChild(li);
-  });
-
   // 同じジャンルのメニュー
   const sameType = meals.filter(m => m.type === meal.type && m.id !== currentId);
-  const count = Math.random() < 0.5 ? 4 : 5;
+  const count = 5;
   const shuffled = sameType.sort(() => Math.random() - 0.5).slice(0, count);
   const list = document.getElementById("sameTypeList");
   shuffled.forEach(m => {
