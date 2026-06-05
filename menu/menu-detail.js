@@ -8,6 +8,48 @@ document.addEventListener("DOMContentLoaded", () => {
 document.querySelector('meta[name="description"]')
   .setAttribute("content", meal.name + "の特徴やおすすめポイントを紹介します。" + meal.description);
 
+// OGP
+const pageUrl = "https://ponpon1129014.github.io/meal-app/menu/" + meal.id + ".html";
+const ogImage = "https://ponpon1129014.github.io/meal-app/" + meal.image;
+
+// og:titleがなければ作る
+let ogTitle = document.querySelector('meta[property="og:title"]');
+if (!ogTitle) {
+  ogTitle = document.createElement("meta");
+  ogTitle.setAttribute("property", "og:title");
+  document.head.appendChild(ogTitle);
+}
+ogTitle.setAttribute("content", meal.name + " | 今日なに食べよーかな");
+
+let ogDesc = document.querySelector('meta[property="og:description"]');
+if (!ogDesc) {
+  ogDesc = document.createElement("meta");
+  ogDesc.setAttribute("property", "og:description");
+  document.head.appendChild(ogDesc);
+}
+ogDesc.setAttribute("content", meal.description);
+
+let ogImg = document.querySelector('meta[property="og:image"]');
+if (!ogImg) {
+  ogImg = document.createElement("meta");
+  ogImg.setAttribute("property", "og:image");
+  document.head.appendChild(ogImg);
+}
+ogImg.setAttribute("content", ogImage);
+
+let ogUrl = document.querySelector('meta[property="og:url"]');
+if (!ogUrl) {
+  ogUrl = document.createElement("meta");
+  ogUrl.setAttribute("property", "og:url");
+  document.head.appendChild(ogUrl);
+}
+ogUrl.setAttribute("content", pageUrl);
+
+  // 星表示
+  function renderStars(value) {
+    return "★".repeat(value) + "☆".repeat(5 - value);
+  }
+
   // HTML生成
   document.querySelector(".container").innerHTML = `
     <div class="menu-detail">
@@ -56,11 +98,6 @@ document.querySelector('meta[name="description"]')
       </div>
     </div>
   `;
-
-  // 星表示
-  function renderStars(value) {
-    return "★".repeat(value) + "☆".repeat(5 - value);
-  }
 
   // タグ
   const tagContainer = document.getElementById("tags");
