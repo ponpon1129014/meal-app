@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // タイトル・メタ
   document.title = meal.name + " | 今日なに食べよーかな";
-  document.querySelector('meta[name="description"]')
-    .setAttribute("content", meal.name + "のおすすめポイントを紹介します。");
+document.querySelector('meta[name="description"]')
+  .setAttribute("content", meal.name + "の特徴やおすすめポイントを紹介します。" + meal.description);
 
   // HTML生成
   document.querySelector(".container").innerHTML = `
