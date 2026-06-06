@@ -1,4 +1,4 @@
-const CACHE_NAME = "gacha-v4.2.1";
+const CACHE_NAME = "gacha-v4.2.2";
 
 const urlsToCache = [
   "./",
