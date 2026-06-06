@@ -79,6 +79,7 @@ document.querySelectorAll("#catPanel input[type=checkbox]").forEach(cb => {
   cb.addEventListener("change", () => {
     selectedCats = [...document.querySelectorAll("#catPanel input:checked")].map(c => c.value);
     updateBadges("cat");
+    updateTagAvailability();
     syncUI();
   });
 });
@@ -88,9 +89,26 @@ document.querySelectorAll("#tagPanel input[type=checkbox]").forEach(cb => {
   cb.addEventListener("change", () => {
     selectedTags = [...document.querySelectorAll("#tagPanel input:checked")].map(c => c.value);
     updateBadges("tag");
+    updateTagAvailability();
     syncUI();
   });
 });
+
+function updateTagAvailability() {
+  // 現在のボリューム・カテゴリで絞り込んだリストをベースにする
+  let base = meals;
+  if (selectedTypes.length > 0) base = base.filter(m => selectedTypes.includes(m.type));
+  if (selectedCats.length > 0) base = base.filter(m => m.category.some(c => selectedCats.includes(c)));
+
+  document.querySelectorAll("#tagPanel input[type=checkbox]").forEach(cb => {
+    if (cb.checked) { cb.disabled = false; return; }
+    const testTags = [...selectedTags, cb.value];
+    const hit = base.filter(m => testTags.every(t => m.tags.includes(t)));
+    cb.disabled = hit.length === 0;
+    cb.closest(".chk-item").style.opacity = hit.length === 0 ? "0.4" : "1";
+  });
+}
+
 
 // ── バッジ更新 ──
 function updateBadges(group) {
@@ -119,21 +137,20 @@ function syncUI() {
     btn.classList.toggle("active", selectedTypes.includes(btn.dataset.type));
   });
 
-  const hasVol = selectedTypes.length > 0;
-  button.disabled = !hasVol;
+button.disabled = false;
 
-  if (!hasVol) {
-    selectedLabel.textContent = "ジャンルを選んでね 🍚";
-    return;
-  }
+const hasAny = selectedTypes.length > 0 || selectedCats.length > 0 || selectedTags.length > 0;
 
-  let label = "選択中：" + selectedTypes.map(t => typeLabels[t]).join("・");
-  if (selectedCats.length > 0) {
-    label += "　" + selectedCats.map(c => catLabels[c]).join("・");
-  }
-  if (selectedTags.length > 0) {
-    label += "　" + selectedTags.join("・");
-  }
+let label = hasAny ? "選択中：" : "今日なに食べる？ 🍚絞り込みもできるよ！";
+
+if (hasAny) {
+  const parts = [];
+  if (selectedTypes.length > 0) parts.push(selectedTypes.map(t => typeLabels[t]).join("・"));
+  if (selectedCats.length > 0) parts.push(selectedCats.map(c => catLabels[c]).join("・"));
+  if (selectedTags.length > 0) parts.push(selectedTags.join("・"));
+  label += parts.join("　");
+}
+
   selectedLabel.textContent = label;
 }
 
@@ -214,10 +231,6 @@ button.addEventListener("click", chooseMeal);
 
 function chooseMeal() {
   const filtered = getFiltered();
-  if (filtered.length === 0) {
-    selectedLabel.textContent = "条件に合う料理がありません 😢";
-    return;
-  }
 
   const detailLink = document.getElementById("detailLink");
   detailLink.style.display = "none";

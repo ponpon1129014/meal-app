@@ -315,41 +315,35 @@ background: rgba(255,255,255,0.3);
 
 
 
-/* ── スマホ：1カラムレイアウト ── */
+
 @media (max-width: 600px) {
 
-  /* コンテナの高さ制限を解除 */
   .container {
     min-height: 100%;
     height: auto;
   }
 
-  /* 2カラム → 1カラム */
   .menu-columns {
     flex-direction: column;
   }
 
-  /* 画像を横幅いっぱいに */
   .menu-left img {
     max-width: 100%;
   }
 
-  /* 情報カードのはみ出し防止 */
   .info-cards {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   .info-card {
     min-width: 0;
-    flex: 1 1 40%;
+    flex: 1 1 0;
   }
 
-  /* 引き直しボタンを縦並びに */
   .redraw-buttons {
     flex-direction: column;
   }
 
-  /* シェア行：1行に収める */
   .share-row {
     flex-wrap: nowrap;
     align-items: center;

@@ -13,13 +13,13 @@ const template = (id) => `<!DOCTYPE html>
   <title>ページ | 今日なに食べよーかな</title>
   <meta name="description" content="">
   <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="menu.css">
+  <link rel="stylesheet" href="../menu.css">
 </head>
 <body>
   <div class="container"></div>
   <script>const currentId = "${id}";</script>
   <script src="../meals.js"></script>
-  <script src="menu-detail.js"></script>
+  <script src="../menu-detail.js"></script>
 </body>
 </html>`;
 

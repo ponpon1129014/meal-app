@@ -11,9 +11,9 @@ const staticFiles = [
   "./meals.js",
   "./images/default.png",
   "./images/ogp.png",
-  "./menu/menu-detail.js",
-  "./menu/menu.css",
-  "./menu/tag.html",
+  "./menu-detail.js",
+  "./menu.css",
+  "./tag.html",
 ];
 
 const imageFiles = ids.map(id => `./images/${id}.png`);

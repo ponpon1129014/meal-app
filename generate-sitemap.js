@@ -8,7 +8,7 @@ const base = "https://ponpon1129014.github.io/meal-app";
 const urls = [
   `${base}/`,
   `${base}/privacy.html`,
-  `${base}/menu/tag.html`,
+  `${base}/tag.html`,
   ...ids.map(id => `${base}/menu/${id}.html`)
 ];
 

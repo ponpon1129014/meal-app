@@ -105,7 +105,7 @@ ogUrl.setAttribute("content", pageUrl);
     const a = document.createElement("a");
     a.textContent = tag;
     a.className = "tag";
-    a.href = "tag.html?name=" + encodeURIComponent(tag);
+    a.href = "../tag.html?name=" + encodeURIComponent(tag);
     tagContainer.appendChild(a);
   });
 
