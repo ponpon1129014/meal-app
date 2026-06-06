@@ -1,4 +1,4 @@
-const CACHE_NAME = "gacha-v4.0.0";
+const CACHE_NAME = "gacha-v4.0.1";
 
 const urlsToCache = [
   "./",
@@ -11,6 +11,7 @@ const urlsToCache = [
   "./menu-detail.js",
   "./menu.css",
   "./tag.html",
+  "./category.html",
   "./images/curry.png",
   "./images/hayashi.png",
   "./images/gyudon.png",

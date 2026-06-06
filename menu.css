@@ -280,12 +280,23 @@ background: rgba(255,255,255,0.3);
 }
 
 .tag-page > a {
-  color: rgba(255,255,255,0.6);
-  font-size: 12px;
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 13px;
   text-decoration: none;
+  color: white;
+  transition: background 0.2s;
 }
 
-#tagMealList {
+.tag-page > a:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+#tagMealList,
+#catMealList {
   list-style: none;
   padding: 0;
   margin: 0 0 24px 0;
@@ -294,7 +305,8 @@ background: rgba(255,255,255,0.3);
   gap: 12px;
 }
 
-#tagMealList li a {
+#tagMealList li a,
+#catMealList li a {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -367,4 +379,11 @@ background: rgba(255,255,255,0.3);
     padding: 8px 10px;
     font-size: 11px;
   }
+
+/* 一覧ページ説明文 */
+#catDesc,
+#tagDesc {
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  margin: -16px 0 20px 0;
 }

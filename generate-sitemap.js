@@ -9,6 +9,7 @@ const urls = [
   `${base}/`,
   `${base}/privacy.html`,
   `${base}/tag.html`,
+  `${base}/category.html`,
   ...ids.map(id => `${base}/menu/${id}.html`)
 ];
 

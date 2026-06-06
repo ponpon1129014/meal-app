@@ -101,6 +101,24 @@ ogUrl.setAttribute("content", pageUrl);
 
   // タグ
   const tagContainer = document.getElementById("tags");
+   const catLabels = {
+  rice:   "ご飯もの",
+  noodle: "麺類",
+  meat:   "肉料理",
+  fish:   "魚料理",
+  flour:  "粉もの・チーズ系",
+  nabe:   "鍋・汁物",
+  side:   "軽食・サイド"
+};
+
+meal.category.forEach(cat => {
+  const a = document.createElement("a");
+  a.textContent = catLabels[cat] || cat;
+  a.className = "tag";
+  a.href = "../category.html?name=" + cat;
+  tagContainer.appendChild(a);
+});
+ 
   meal.tags.forEach(tag => {
     const a = document.createElement("a");
     a.textContent = tag;

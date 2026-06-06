@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カテゴリ一覧 | 今日なに食べよーかな</title>
+  <meta name="description" content="">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+  <div class="container">
+    <div class="tag-page">
+      <h1 id="catTitle"></h1>
+      <p id="catDesc"></p>
+      <ul id="catMealList"></ul>
+      <a href="index.html" class="back-btn">← トップに戻る</a>
+    </div>
+  </div>
+
+  <script src="meals.js"></script>
+  <script>
+    const catLabels = {
+      rice:   "ご飯もの",
+      noodle: "麺類",
+      meat:   "肉料理",
+      fish:   "魚料理",
+      flour:  "粉もの・チーズ系",
+      nabe:   "鍋・汁物",
+      side:   "軽食・サイド"
+    };
+
+    const catDescs = {
+      rice:   "お腹も心も満たす、ご飯が主役の一品",
+      noodle: "つるっと食べたい日に。ラーメン・うどん・パスタなど",
+      meat:   "ガッツリ食べたいときの定番メニュー",
+      fish:   "魚介の旨みを楽しめる和洋中の一皿",
+      flour:  "香ばしさと濃厚さが魅力の人気メニュー",
+      nabe:   "体も温まるほっとする料理たち",
+      side:   "もう一品にも、小腹満たしにもぴったり"
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const catName = params.get("name");
+
+    if (catName) {
+      const label = catLabels[catName] || catName;
+      const filtered = meals.filter(m => m.category.includes(catName));
+
+      document.title = label + " | 今日なに食べよーかな";
+      document.querySelector('meta[name="description"]')
+        .setAttribute("content", label + "に該当するメニューの一覧です。");
+      document.getElementById("catTitle").textContent = "🍽️ " + label + "（" + filtered.length + "品）";
+      document.getElementById("catDesc").textContent = catDescs[catName] || "";
+
+      const list = document.getElementById("catMealList");
+      filtered.forEach(m => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = "menu/" + m.id + ".html";
+        a.textContent = m.emoji + " " + m.name;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
